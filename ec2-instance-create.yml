@@ -1,0 +1,33 @@
+-   name: provisioning of ec2
+    hosts: localhost
+    vars:
+      image: ami-0e9089763828757e1
+      security_group: webdmz
+      region: us-east-1
+      instance_profile: ec2-ec2
+
+    tasks:
+      - name: install boto3
+        pip:
+          state: present
+          name: boto
+          executable: pip3
+      -   name: launching ec2 instance
+          ec2:
+            key_name: beesart2
+            instance_type: t2.micro
+            image: "{{ image }}"
+            group: "{{ security_group }}"
+            region: "{{ region }}"
+            wait: true
+            assign_public_ip: yes
+            vpc_subnet_id: subnet-17b96e36
+            tenancy: default
+            state: present
+            count: 1
+            instance_profile_name: "{{ instance_profile }}"
+            user_data: |
+              #!/bin/bash
+              sudo yum update -y
+              python -m pip install boto3
+              sudo yum install git -y
