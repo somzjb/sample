@@ -18,7 +18,6 @@ def getEC2Instances(**kwargs):
          instanceResult = client.describe_instances()
 
     instances = instanceResult['Reservations'][0]['Instances']
-
     for inx in instances:
         all_instances.append(inx['InstanceId'])
         print(inx['InstanceId']+','+inx['InstanceType'])
@@ -35,7 +34,6 @@ if __name__ == '__main__':
 
 
 
-#print(all_instances)
 
 
 

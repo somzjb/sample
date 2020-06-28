@@ -5,6 +5,9 @@
       security_group: webdmz
       region: us-east-1
       instance_profile: ec2-ec2
+      vpc_subnet_id: subnet-12345
+      instance_type: t2.micro
+      key_name: ec2key
 
     tasks:
       - name: install boto3
@@ -14,14 +17,14 @@
           executable: pip3
       -   name: launching ec2 instance
           ec2:
-            key_name: beesart2
-            instance_type: t2.micro
+            key_name: "{{ key_name }}"
+            instance_type: "{{ instance_type }}"
             image: "{{ image }}"
             group: "{{ security_group }}"
             region: "{{ region }}"
             wait: true
             assign_public_ip: yes
-            vpc_subnet_id: subnet-17b96e36
+            vpc_subnet_id: "{{ vpc_subnet_id }}"
             tenancy: default
             state: present
             count: 1
